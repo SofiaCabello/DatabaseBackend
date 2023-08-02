@@ -9,7 +9,7 @@ import org.apache.ibatis.annotations.Select;
 @Mapper
 public interface UserMapper extends BaseMapper<User> {
     @Select("SELECT password FROM user WHERE username = #{username}")
-    String getPassword(User user);
+    String getPassword(String username);
 
     @Select("SELECT role FROM user WHERE username = #{username}")
     String getRole(String username);
