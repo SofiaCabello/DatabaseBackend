@@ -9,7 +9,9 @@ import com.example.databasebackend.utils.Result;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/drug")
@@ -87,4 +89,9 @@ public class DrugController {
         return Result.ok();
     }
 
+    @GetMapping("getDrugList")
+    public Result getDrugList(){
+        List<Map<Integer,String>> queryResult = drugMapper.getAllDrug();
+        return Result.ok(queryResult);
+    }
 }
