@@ -1,5 +1,6 @@
 package com.example.databasebackend.entity;
 
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
 import lombok.ToString;
@@ -14,5 +15,6 @@ public class Drug {
     private String manufacturer;
     private String description;
     private Integer stock;
-    private Double price;
+    private Double priceOut;
+    private Double priceIn;
 }

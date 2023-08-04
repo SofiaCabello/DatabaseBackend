@@ -38,10 +38,14 @@ public class DrugController {
             wrapper.orderByAsc("stock");
         } else if (sort.equals("-stock")) {
             wrapper.orderByDesc("stock");
-        } else if (sort.equals("+price")) {
-            wrapper.orderByAsc("price");
-        } else if (sort.equals("-price")) {
-            wrapper.orderByDesc("price");
+        } else if (sort.equals("+priceIn")) {
+            wrapper.orderByAsc("price_in");
+        } else if (sort.equals("-priceIn")) {
+            wrapper.orderByDesc("price_in");
+        } else if (sort.equals("+priceOut")) {
+            wrapper.orderByAsc("price_out");
+        } else if (sort.equals("-priceOut")) {
+            wrapper.orderByDesc("price_out");
         }
         if(name!=null){
             wrapper.like("name", name);
@@ -57,6 +61,7 @@ public class DrugController {
         }
         drugMapper.selectPage(pageParam, wrapper);
         List<Drug> list = pageParam.getRecords();
+        System.out.println(list);
         return Result.ok(list).total(pageParam.getTotal());
     }
 
@@ -78,7 +83,7 @@ public class DrugController {
 
     @PostMapping("createDrug")
     public Result createDrug(@RequestBody Drug drug){
-        drugMapper.insertDrug(drug.getName(), drug.getType(), drug.getManufacturer(), drug.getDescription(), drug.getStock(), drug.getPrice());
+        drugMapper.insertDrug(drug.getName(), drug.getType(), drug.getManufacturer(), drug.getDescription(), drug.getStock(), drug.getPriceIn(), drug.getPriceOut());
         return Result.ok();
     }
 
