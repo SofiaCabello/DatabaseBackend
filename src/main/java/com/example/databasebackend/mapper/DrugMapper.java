@@ -17,4 +17,5 @@ public interface DrugMapper extends BaseMapper<Drug> {
 
     @Select("SELECT id,name FROM drug")
     List<Map<Integer, String>> getAllDrug();
+
 }

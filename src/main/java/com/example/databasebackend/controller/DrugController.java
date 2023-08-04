@@ -94,4 +94,5 @@ public class DrugController {
         List<Map<Integer,String>> queryResult = drugMapper.getAllDrug();
         return Result.ok(queryResult);
     }
+
 }
