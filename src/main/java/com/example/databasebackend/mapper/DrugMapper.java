@@ -18,4 +18,10 @@ public interface DrugMapper extends BaseMapper<Drug> {
     @Select("SELECT id,name FROM drug")
     List<Map<Integer, String>> getAllDrug();
 
+    // 统计各个种类的药品数量
+    @Select("SELECT type AS name, COUNT(*) AS value FROM drug GROUP BY type")
+    List<Map<String, Integer>> countByType();
+
+    @Select("SELECT SUM(price_out) AS totalPrice FROM drug")
+    Double getTotalPrice();
 }

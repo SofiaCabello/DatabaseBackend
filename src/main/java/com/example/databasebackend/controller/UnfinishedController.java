@@ -2,6 +2,7 @@ package com.example.databasebackend.controller;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.example.databasebackend.mapper.FinishedMapper;
 import com.example.databasebackend.mapper.UnfinishedMapper;
 import com.example.databasebackend.utils.Result;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -94,4 +95,31 @@ public class UnfinishedController {
     }
 
     // 还差一个修改和删除的API...
+
+    @PostMapping("updateUnfinished")
+    public Result updateUnfinished(
+            @RequestParam Integer id,
+            @RequestBody UnfinishedPost unfinishedPost){
+        Integer[] ID = unfinishedPost.getID();
+        String[] quantityString = unfinishedPost.getQuantity().split(",");
+        Integer[] quantity = new Integer[quantityString.length];
+        for(int i=0; i<quantityString.length; i++){
+            quantity[i] = Integer.parseInt(quantityString[i]);
+        }
+        if(quantity.length!=ID.length){
+            return Result.fail().message("药品数量与药品种类不符");
+        }else {
+            unfinishedMapper.updateUnfinished(id, unfinishedPost.getCustom(), unfinishedPost.getOrderType(), unfinishedPost.getTime());
+            for (int i = 0; i < ID.length; i++) {
+                unfinishedMapper.updateDrugUnfinished(id, ID[i], quantity[i]);
+            }
+        }
+        return Result.ok();
+    }
+
+    @RequestMapping("deleteUnfinished")
+    public Result deleteUnfinished(@RequestParam Integer id){
+        unfinishedMapper.deleteUnfinished(id);
+        return Result.ok();
+    }
 }

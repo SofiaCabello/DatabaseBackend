@@ -5,11 +5,13 @@ import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.example.databasebackend.entity.Drug;
 import com.example.databasebackend.mapper.DrugMapper;
+import com.example.databasebackend.mapper.FinishedMapper;
 import com.example.databasebackend.utils.Result;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -19,6 +21,8 @@ import java.util.Map;
 public class DrugController {
     @Autowired
     private DrugMapper drugMapper;
+    @Autowired
+    private FinishedMapper finishedMapper;
 
     @GetMapping("getDrug")
     public Result getDrug(
@@ -95,4 +99,20 @@ public class DrugController {
         return Result.ok(queryResult);
     }
 
+    @GetMapping("getEchart")
+    public Result getEchart(){
+        // 统计各个种类药物的数量，并以value-name对的形式返回
+        List<Map<String, Integer>> queryResult = drugMapper.countByType();
+        return Result.ok(queryResult);
+    }
+
+    @GetMapping("setProfitData")
+    public Result setProfitData(){
+        Double totalPrice = drugMapper.getTotalPrice();
+        Double totalProfit = finishedMapper.getTotalProfit();
+        Map<String, Double> queryResult = new HashMap<>();
+        queryResult.put("totalPrice", totalPrice);
+        queryResult.put("totalProfit", totalProfit);
+        return Result.ok(queryResult);
+    }
 }

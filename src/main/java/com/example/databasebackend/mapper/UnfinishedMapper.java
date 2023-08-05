@@ -1,10 +1,8 @@
 package com.example.databasebackend.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import org.apache.ibatis.annotations.Insert;
-import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.*;
 import com.example.databasebackend.entity.unfinishedorders;
-import org.apache.ibatis.annotations.Select;
 
 @Mapper
 public interface UnfinishedMapper extends BaseMapper<unfinishedorders> {
@@ -20,4 +18,14 @@ public interface UnfinishedMapper extends BaseMapper<unfinishedorders> {
 
     @Select("{CALL MoveRecordToFinished(#{id})}")
     void moveRecordToFinished(Integer id);
+
+    @Update("UPDATE unfinished SET custom=#{custom},order_type=#{order_type},time=#{time} WHERE ID=#{id}")
+    void updateUnfinished(Integer id, String custom, String order_type, String time);
+
+    @Update("UPDATE drugUnfinished SET quantity=#{quantity} WHERE order_ID=#{order_ID} AND drug_ID=#{drug_ID}")
+    void updateDrugUnfinished(Integer order_ID, Integer drug_ID, Integer quantity);
+
+    @Delete("DELETE FROM unfinished WHERE ID=#{id}")
+    void deleteUnfinished(Integer id);
+
 }
